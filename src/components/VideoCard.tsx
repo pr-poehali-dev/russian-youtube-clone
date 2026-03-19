@@ -18,6 +18,10 @@ export default function VideoCard({ video, onPlay, compact = false }: VideoCardP
   const { savedVideos, toggleSave } = useAppStore();
   const isSaved = savedVideos.has(video.id);
 
+  // YouTube превью
+  const thumbUrl = `https://img.youtube.com/vi/${video.youtubeId}/mqdefault.jpg`;
+  const thumbHD = `https://img.youtube.com/vi/${video.youtubeId}/maxresdefault.jpg`;
+
   if (compact) {
     return (
       <button
@@ -25,7 +29,12 @@ export default function VideoCard({ video, onPlay, compact = false }: VideoCardP
         className="flex gap-3 w-full text-left group hover:bg-secondary rounded-lg p-2 transition-colors"
       >
         <div className="thumbnail-container flex-shrink-0" style={{ width: 120, height: 68, paddingTop: 0, position: 'relative' }}>
-          <img src={video.thumbnail} alt={video.title} className="absolute inset-0 w-full h-full object-cover rounded-lg" />
+          <img
+            src={thumbUrl}
+            alt={video.title}
+            className="absolute inset-0 w-full h-full object-cover rounded-lg"
+            onError={e => { (e.target as HTMLImageElement).src = video.thumbnail; }}
+          />
           <span className="duration-badge">{video.duration}</span>
         </div>
         <div className="flex flex-col gap-1 flex-1 min-w-0 pt-0.5">
@@ -40,7 +49,12 @@ export default function VideoCard({ video, onPlay, compact = false }: VideoCardP
   return (
     <div className="group animate-fade-in">
       <div className="thumbnail-container cursor-pointer" onClick={() => onPlay(video)}>
-        <img src={video.thumbnail} alt={video.title} loading="lazy" />
+        <img
+          src={thumbHD}
+          alt={video.title}
+          loading="lazy"
+          onError={e => { (e.target as HTMLImageElement).src = thumbUrl; }}
+        />
         <span className="duration-badge">{video.duration}</span>
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
           <div className="w-12 h-12 rounded-full bg-black/70 flex items-center justify-center">

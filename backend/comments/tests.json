@@ -1,0 +1,21 @@
+{
+  "tests": [
+    {
+      "name": "GET comments for video v1",
+      "method": "GET",
+      "path": "/?video_id=v1",
+      "expectedStatus": 200,
+      "expectedBody": {"comments": []},
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "POST new comment",
+      "method": "POST",
+      "path": "/",
+      "body": {"video_id": "v1", "text": "Тестовый комментарий", "author": "Тестер", "author_color": "#4A90D9"},
+      "expectedStatus": 201,
+      "expectedBody": {"comment": {"text": "Тестовый комментарий"}},
+      "bodyMatcher": "partial"
+    }
+  ]
+}
